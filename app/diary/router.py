@@ -3,7 +3,7 @@ from starlette.status import HTTP_204_NO_CONTENT
 
 from app.core.database import SessionDep
 from app.diary.repository import DiaryRepository
-from app.diary.schemas import DiaryCreate, DiaryRead
+from app.diary.schemas import DiaryCreate, DiaryRead, DiaryUpdate
 
 router = APIRouter(prefix="/daily", tags=["daily"])
 
@@ -27,3 +27,8 @@ async def create_diary(session: SessionDep, data: DiaryCreate,):
 async def delete_diary(session: SessionDep, diary_id: int):
     await DiaryRepository.delete(session=session, model_id=diary_id)
     return
+
+
+@router.patch("/{diary_id}", response_model=DiaryRead)
+async def update_diary(session: SessionDep, diary_id: int, data: DiaryUpdate):
+    return await DiaryRepository.patch(session=session, data=data, model_id=diary_id)

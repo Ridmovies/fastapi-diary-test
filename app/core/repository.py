@@ -49,5 +49,24 @@ class BaseRepository:
                 await session.commit()
 
 
+    @classmethod
+    async def patch(cls, session: AsyncSession, model_id: int, data):
+        """Обновить запись по ID"""
+        # Запрос для получения записи по ID
+        query = select(cls.model).filter_by(id=model_id)
+        result = await session.execute(query)
+        instance = result.scalar_one_or_none()
+
+        # exclude_unset=True: Исключает поля, которые не были явно установлены в Pydantic модели (т.е. остались None)
+        update_dict = data.model_dump(exclude_unset=True, exclude_none=True)
+        for key, value in update_dict.items():
+            setattr(instance, key, value)
+
+        await session.commit()
+        # await session.refresh(instance)
+
+        return instance
+
+
 
 

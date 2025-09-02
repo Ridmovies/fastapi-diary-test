@@ -13,3 +13,7 @@ class DiaryCreate(DiaryBase):
 class DiaryRead(DiaryBase):
     id: int
     # created_at: str
+
+class DiaryUpdate(BaseModel):
+    title: str | None = None
+    content: str | None = None
