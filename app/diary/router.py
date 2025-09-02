@@ -32,3 +32,8 @@ async def delete_diary(session: SessionDep, diary_id: int):
 @router.patch("/{diary_id}", response_model=DiaryRead)
 async def update_diary(session: SessionDep, diary_id: int, data: DiaryUpdate):
     return await DiaryRepository.patch(session=session, data=data, model_id=diary_id)
+
+
+@router.post("/{diary_id}/done", response_model=DiaryRead)
+async def done_diary(session: SessionDep, diary_id: int):
+    return await DiaryRepository.done(session=session, diary_id=diary_id)

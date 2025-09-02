@@ -4,6 +4,7 @@ from pydantic import BaseModel
 class DiaryBase(BaseModel):
     title: str
     content: str | None
+    is_done: bool = False
 
 
 class DiaryCreate(DiaryBase):

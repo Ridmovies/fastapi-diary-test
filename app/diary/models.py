@@ -8,3 +8,4 @@ class Diary(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     title: Mapped[str]
     content: Mapped[str | None]
+    is_done: Mapped[bool] = mapped_column(default=False)
