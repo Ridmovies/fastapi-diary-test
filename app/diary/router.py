@@ -1,4 +1,5 @@
 from fastapi import APIRouter
+from starlette.status import HTTP_204_NO_CONTENT
 
 from app.core.database import SessionDep
 from app.diary.repository import DiaryRepository
@@ -20,3 +21,9 @@ async def get_diary_by_id(session: SessionDep, diary_id: int):
 @router.post("/", response_model=DiaryRead)
 async def create_diary(session: SessionDep, data: DiaryCreate,):
     return await DiaryRepository.create(session=session, data=data)
+
+
+@router.delete("/{diary_id}", status_code=HTTP_204_NO_CONTENT)
+async def delete_diary(session: SessionDep, diary_id: int):
+    await DiaryRepository.delete(session=session, model_id=diary_id)
+    return

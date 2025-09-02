@@ -38,6 +38,16 @@ class BaseRepository:
         await session.commit()
         return instance
 
+    @classmethod
+    async def delete(cls, session: AsyncSession, model_id: int):
+        if model_id:
+            query = select(cls.model).filter_by(id=model_id)
+            result = await session.execute(query)
+            instance = result.scalar_one_or_none()
+            if instance:
+                await session.delete(instance)
+                await session.commit()
+
 
 
 
