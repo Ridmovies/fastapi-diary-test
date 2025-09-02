@@ -44,4 +44,4 @@ async def init_db():
 
 # Тип-алиас для аннотаций зависимостей FastAPI:
 # Позволяет использовать SessionDep в параметрах роутов вместо явного Depends(get_session)
-SessionDep = Annotated[AsyncSession, Depends(get_session)]
+SessionDep:  type[AsyncSession] = Annotated[AsyncSession, Depends(get_session)]

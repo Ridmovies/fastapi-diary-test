@@ -5,7 +5,7 @@ from app.core.database import SessionDep
 from app.diary.repository import DiaryRepository
 from app.diary.schemas import DiaryCreate, DiaryRead, DiaryUpdate
 
-router = APIRouter(prefix="/daily", tags=["daily"])
+router = APIRouter(prefix="/api/daily", tags=["daily"])
 
 
 @router.get("/", response_model=list[DiaryRead])
