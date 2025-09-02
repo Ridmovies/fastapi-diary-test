@@ -20,6 +20,12 @@ class BaseRepository:
         result = await session.execute(query)
         return result.scalars().all()
 
+    @classmethod
+    async def get_by_id(cls, session: AsyncSession, model_id: int):
+        query = select(cls.model).filter_by(id=int(model_id))
+        result = await session.execute(query)
+        return result.scalar_one_or_none()
+
 
     @classmethod
     async def create(cls, session: AsyncSession, data: BaseModel ):
