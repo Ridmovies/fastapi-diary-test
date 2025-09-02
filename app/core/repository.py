@@ -1,3 +1,4 @@
+from pydantic import BaseModel
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -14,9 +15,22 @@ class BaseRepository:
 
     @classmethod
     async def get_all(cls, session: AsyncSession):
+        """Получить все записи из таблицы"""
         query = select(cls.model)
         result = await session.execute(query)
         return result.scalars().all()
+
+
+    @classmethod
+    async def create(cls, session: AsyncSession, data: BaseModel ):
+        """Создать новую запись"""
+        # Преобразуем Pydantic модель в словарь, если это Pydantic модель
+        data_dict = data.model_dump(exclude_unset=True, exclude_none=True)
+
+        instance = cls.model(**data_dict)  # Распаковываем словарь в аргументы конструктора модели
+        session.add(instance)
+        await session.commit()
+        return instance
 
 
 
