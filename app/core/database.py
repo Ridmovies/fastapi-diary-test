@@ -36,6 +36,12 @@ async def get_session() -> AsyncGenerator[AsyncSession, None]:
         yield session  # Возвращаем сессию через yield (паттерн dependency injection)
 
 
+async def init_db():
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.drop_all)
+        await conn.run_sync(Base.metadata.create_all)
+
+
 # Тип-алиас для аннотаций зависимостей FastAPI:
 # Позволяет использовать SessionDep в параметрах роутов вместо явного Depends(get_session)
 SessionDep = Annotated[AsyncSession, Depends(get_session)]
